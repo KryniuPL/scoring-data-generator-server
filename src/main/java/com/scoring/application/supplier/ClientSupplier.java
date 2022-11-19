@@ -7,7 +7,7 @@ import jakarta.inject.Singleton;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import static com.scoring.application.utils.RandomEnum.randomEnum;
+import static com.scoring.application.utils.RandomUtils.randomEnum;
 
 @Singleton
 public class ClientSupplier implements Supplier<Client> {

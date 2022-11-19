@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record PaymentHistory(
+        UUID paymentId,
         UUID accountId,
         LocalDateTime date,
         BigDecimal balance,

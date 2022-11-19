@@ -7,7 +7,7 @@ import io.micronaut.configuration.kafka.annotation.Topic;
 
 import java.util.UUID;
 
-@KafkaClient(batch = true)
+@KafkaClient
 public interface AccountProducer {
 
     @Topic("accounts")

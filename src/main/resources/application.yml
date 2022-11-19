@@ -11,3 +11,7 @@ netty:
 kafka:
   bootstrap:
     servers: localhost:29092
+
+application:
+  events:
+    enabled: true

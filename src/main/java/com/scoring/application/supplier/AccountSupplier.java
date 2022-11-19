@@ -11,7 +11,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.scoring.application.utils.RandomEnum.randomEnum;
+import static com.scoring.application.utils.RandomUtils.randomEnum;
 
 @Singleton
 public class AccountSupplier {
