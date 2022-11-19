@@ -1,0 +1,79 @@
+\documentclass[12pt, twoside]{article}
+\usepackage[a4paper, top=2.0cm, bottom=2.0cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[MeX]{polski}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage[final]{pdfpages}
+\usepackage{afterpage}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{chngcntr}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    columns=fullflexible,
+    showstringspaces=false,
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+    stepnumber=1,
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,                   % adds a frame around the code
+    rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    title=\lstname,                   % show the filename of files included with \lstinputlisting;
+% also try caption instead of title
+    commentstyle=\color{gray}\upshape
+}
+
+\ProvidesPackage{java}
+
+\title{Projekt generatora danych skoringowych}
+\author{Krzysztof Dragan}
+\date{Listopad 2022}
+\pdfinfo{
+    /Author (Krzysztof Dragan)
+    /Title  (Generator danych skoringowych z użyciem Apache Kafka)
+    /CreationDate (\today)
+    /Keywords (Praca;dyplomowa;magisterska;modyfikacja;stfc)
+}
+
+\begin{document}
+
+    \maketitle
+
+    \newpage
+    \section{Opis zagadnienia}
+    Głównym zagadnieniem podjętym w pracy jest opracowanie generatora danych skoringowych z użyciem oprogramowania Apache Kafka. Na domenę biznesową wybrano system oceny kredytowej klientów indywidualnych wzorujący się na realnym systemie Biura Informacji Kredytowej.
+    Wymgania i cele pracy można podzielić na dwie kategorie: biznesowe i techniczne. Wymagania techniczne zawierają potrzeby zaimplementowania systemu:
+    \begin{itemize}
+        \item skalowalnego
+        \item dostępnego z poziomu przeglądarki internetowej
+        \item pozwalającego wygnerować duże ilości danych(minimum 1GB)
+        \item wydajnego, pozwalającego na wygenerowanie danych w krótkim czasie
+        \item parametryzowanego, dostarczającego wielu opcji na określenie zakresu atrybutów zbioru
+    \end{itemize}
+    Co do wymagań biznesowych, system powinien:
+    \begin{itemize}
+        \item jak najbardziej sensownie odzwierciedlać powiązania danych
+        \item w łatwy sposób udostępniać wyeksportowanie danych dla użytkownika końcowego systemu
+    \end{itemize}
+
+\end{document}
