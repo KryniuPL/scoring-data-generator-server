@@ -16,6 +16,7 @@
     <properties>
         <packaging>jar</packaging>
         <jdk.version>17</jdk.version>
+        <ksqldb.version>0.28.2</ksqldb.version>
         <release.version>17</release.version>
         <micronaut.version>3.7.3</micronaut.version>
         <micronaut.runtime>netty</micronaut.runtime>
@@ -26,6 +27,11 @@
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>ksqlDB</id>
+            <name>ksqlDB</name>
+            <url>https://packages.confluent.io/maven/</url>
         </repository>
     </repositories>
 
@@ -88,6 +94,17 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.confluent.ksql/ksqldb-api-client -->
+        <dependency>
+            <groupId>io.confluent.ksql</groupId>
+            <artifactId>ksqldb-api-client</artifactId>
+            <version>7.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>3.1.2</version>
         </dependency>
     </dependencies>
 

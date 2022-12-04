@@ -11,6 +11,7 @@ public record PaymentHistory(
         BigDecimal balance,
         Long daysOfDelays,
         BigDecimal overdueAmount,
-        AccountStatus accountStatus
+        AccountStatus accountStatus,
+        String paymentsCountAggregator
 ) {
 }

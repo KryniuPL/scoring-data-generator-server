@@ -13,6 +13,7 @@ import static com.scoring.application.utils.RandomUtils.randomBigDecimal;
 @Singleton
 public class PaymentHistorySupplier {
 
+    private static final String PAYMENTS_COUNT_AGGREGATOR = "PAYMENTS_COUNT_AGGREGATOR";
     @Inject
     private Clock clock;
 
@@ -24,7 +25,8 @@ public class PaymentHistorySupplier {
                 randomBigDecimal(),
                 0L,
                 randomBigDecimal(),
-                account.accountStatus()
+                account.accountStatus(),
+                PAYMENTS_COUNT_AGGREGATOR
         );
     }
 }
