@@ -28,6 +28,7 @@ public class EventsListener {
         adminClient.createTopics(List.of(
                 new NewTopic("clients", 1, (short) 1),
                 new NewTopic("accounts", 1, (short) 1),
+                new NewTopic("payments-history", 1, (short) 1),
                 new NewTopic("payments-history", 1, (short) 1)
         ));
         kafkaDatabaseUtils.createPaymentsStream();
@@ -37,7 +38,7 @@ public class EventsListener {
     @Requires(property = "application.events.enabled", value = "true")
     public void onShutdownEvent(ShutdownEvent event) {
         log.info("Closing application... Deleting all kafka topics and ksqldb state");
-        adminClient.deleteTopics(List.of("clients", "accounts", "payments-history"));
+        adminClient.deleteTopics(List.of("clients", "client-summary", "accounts", "payments-history"));
         kafkaDatabaseUtils.deleteAllTablesAndStreams();
     }
 }

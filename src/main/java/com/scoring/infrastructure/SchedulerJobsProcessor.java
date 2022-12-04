@@ -3,7 +3,6 @@ package com.scoring.infrastructure;
 import com.scoring.application.generator.ClientSummaryGenerator;
 import com.scoring.application.repository.PaymentsRepository;
 import com.scoring.application.utils.RequestHolder;
-import io.micronaut.scheduling.TaskScheduler;
 import io.micronaut.scheduling.annotation.Scheduled;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

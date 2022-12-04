@@ -25,7 +25,6 @@ public class PaymentHistorySupplier {
                 randomBigDecimal(),
                 0L,
                 randomBigDecimal(),
-                account.accountStatus(),
                 PAYMENTS_COUNT_AGGREGATOR
         );
     }

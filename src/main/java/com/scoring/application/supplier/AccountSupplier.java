@@ -1,7 +1,6 @@
 package com.scoring.application.supplier;
 
 import com.scoring.domain.Account;
-import com.scoring.domain.AccountStatus;
 import com.scoring.domain.AccountType;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -26,7 +25,6 @@ public class AccountSupplier {
                 LocalDateTime.now(clock),
                 BigDecimal.ONE,
                 randomEnum(AccountType.class),
-                randomEnum(AccountStatus.class),
                 0L,
                 LocalDateTime.now(clock),
                 LocalDateTime.now(clock),

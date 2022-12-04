@@ -17,7 +17,7 @@ public class KafkaAccountsRepository implements AccountsRepository {
 
     @Override
     public List<Account> getAllByClientId(UUID clientId) {
-        return kafkaDatabaseClient.executeQuery("select * from accounts where CLIENTID = %s;".formatted(clientId))
+        return kafkaDatabaseClient.executeQuery("select * from accounts where CLIENTID = '%s';".formatted(clientId))
                 .join()
                 .stream()
                 .map(this::mapRow)
@@ -27,7 +27,7 @@ public class KafkaAccountsRepository implements AccountsRepository {
     private Account mapRow(Row row) {
         return Account.builder()
                 .accountId(UUID.fromString(row.getString("ACCOUNTID")))
-                .accountType(AccountType.valueOf(row.getString("ACCOUNTSTATUS")))
+                .accountType(AccountType.valueOf(row.getString("ACCOUNTTYPE")))
                 .build();
     }
 }
