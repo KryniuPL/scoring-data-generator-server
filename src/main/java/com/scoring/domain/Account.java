@@ -13,7 +13,7 @@ public record Account(
         LocalDateTime startDate,
         BigDecimal initialBalance,
         AccountType accountType,
-        Long numberOfInstallments,
+        Integer numberOfInstallments,
         LocalDateTime endDate,
         LocalDateTime vindicationDate,
         LocalDateTime executionDate

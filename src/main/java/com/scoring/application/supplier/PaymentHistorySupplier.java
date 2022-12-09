@@ -1,6 +1,7 @@
 package com.scoring.application.supplier;
 
 import com.scoring.domain.Account;
+import com.scoring.domain.AccountStatus;
 import com.scoring.domain.PaymentHistory;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -25,6 +26,7 @@ public class PaymentHistorySupplier {
                 randomBigDecimal(),
                 0L,
                 randomBigDecimal(),
+                AccountStatus.ENHANCED,
                 PAYMENTS_COUNT_AGGREGATOR
         );
     }

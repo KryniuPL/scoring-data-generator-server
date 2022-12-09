@@ -10,7 +10,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.scoring.application.utils.RandomUtils.randomEnum;
+import static com.scoring.application.utils.RandomUtils.*;
 
 @Singleton
 public class AccountSupplier {
@@ -19,16 +19,28 @@ public class AccountSupplier {
     private Clock clock;
 
     public Account get(UUID clientId) {
-        return new Account(
-                clientId,
-                UUID.randomUUID(),
-                LocalDateTime.now(clock),
-                BigDecimal.ONE,
-                randomEnum(AccountType.class),
-                0L,
-                LocalDateTime.now(clock),
-                LocalDateTime.now(clock),
-                LocalDateTime.now(clock)
-        );
+        AccountType accountType = randomEnum(AccountType.class);
+
+        return Account.builder()
+                .accountId(UUID.randomUUID())
+                .clientId(clientId)
+                .accountType(accountType)
+                .initialBalance(randomBigDecimal())
+                .numberOfInstallments(getNumberOfInstallments(accountType))
+                .startDate(LocalDateTime.now(clock))
+                .endDate(LocalDateTime.now(clock))
+                .vindicationDate(LocalDateTime.now(clock))
+                .executionDate(LocalDateTime.now(clock))
+                .build();
     }
+
+    private Integer getNumberOfInstallments(AccountType accountType) {
+        return switch (accountType) {
+            case CREDIT_CARD -> randomInteger(5, 10);
+            case MORTGAGE -> randomInteger(12, 240);
+            case INSTALLMENT -> randomInteger(1, 10);
+            default -> 0;
+        };
+    }
+
 }

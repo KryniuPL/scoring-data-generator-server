@@ -6,10 +6,12 @@ import com.scoring.domain.AccountType;
 import io.confluent.ksql.api.client.Client;
 import io.confluent.ksql.api.client.Row;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.UUID;
 
+@Singleton
 public class KafkaAccountsRepository implements AccountsRepository {
 
     @Inject

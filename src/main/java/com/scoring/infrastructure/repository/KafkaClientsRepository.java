@@ -1,12 +1,13 @@
 package com.scoring.infrastructure.repository;
 
 import com.scoring.application.repository.ClientsRepository;
-import com.scoring.domain.Client;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.UUID;
 
+@Singleton
 public class KafkaClientsRepository implements ClientsRepository {
 
     @Inject

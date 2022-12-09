@@ -39,7 +39,7 @@ public class KafkaPaymentsRepository implements PaymentsRepository {
         return PaymentHistory.builder()
                 .accountStatus(AccountStatus.valueOf(row.getString("ACCOUNTSTATUS")))
                 .balance(new BigDecimal(row.getString("BALANCE")))
-                .daysOfDelays(row.getLong("DAYSOFDELAYS"))
+                .daysOfDelays(Long.valueOf(row.getString("DAYSOFDELAYS")))
                 .overdueAmount(new BigDecimal(row.getString("OVERDUEAMOUNT")))
                 .build();
     }

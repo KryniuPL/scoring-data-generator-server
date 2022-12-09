@@ -36,8 +36,11 @@ public class ClientSummaryGenerator {
     @Inject
     private Clock clock;
 
+    private static final String CLIENT_SUMMARIES_COUNT_AGGREGATOR = "SUMMARIESAGGREGATOR";
+
     public void generateClientSummaries() {
         clientsRepository.getAllClientsUUIDS()
+                .parallelStream()
                 .forEach(clientId -> {
                     List<Account> clientAccounts = accountsRepository.getAllByClientId(clientId);
                     List<PaymentHistory> paymentsHistory = clientAccounts.stream()
@@ -83,6 +86,7 @@ public class ClientSummaryGenerator {
                             .maxDelayedDays(maxDelayedDays)
                             .worstStatus(worstStatus)
                             .accountTypes(clientAccounts.stream().map(Account::accountType).toList())
+                            .summariesAggregator(CLIENT_SUMMARIES_COUNT_AGGREGATOR)
                             .build();
 
                     clientSummaryProducer.sendClientSummary(clientSummary.summaryId(), clientSummary);

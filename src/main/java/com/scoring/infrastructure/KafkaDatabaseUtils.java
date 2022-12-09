@@ -30,6 +30,20 @@ public class KafkaDatabaseUtils {
                     WITH (kafka_topic='accounts', value_format='json');
             """;
 
+    public static final String CREATE_CLIENT_SUMMARIES_STREAM_SQL = """
+            CREATE STREAM IF NOT EXISTS CLIENT_SUMMARIES
+            (summaryId VARCHAR KEY, clientId VARCHAR, accountTypes VARCHAR, sumOfBalances VARCHAR, worstStatus VARCHAR, maxDelayedDays VARCHAR, creationDate VARCHAR, maxOverdueAmount VARCHAR, lastStatues VARCHAR, summariesAggregator VARCHAR)
+            WITH (kafka_topic='client-summary', value_format='json');
+            """;
+
+    public static final String CREATE_CLIENT_SUMMARIES_METRICS_TABLE_SQL = """
+            CREATE TABLE IF NOT EXISTS CLIENT_SUMMARIES_METRICS AS
+             SELECT SUMMARIESAGGREGATOR, COUNT(*) as CLIENT_SUMMARIES_COUNT
+                FROM CLIENT_SUMMARIES
+                GROUP BY SUMMARIESAGGREGATOR
+                EMIT CHANGES;
+            """;
+
     @Inject
     private Client kafkaDatabaseClient;
 
@@ -39,6 +53,8 @@ public class KafkaDatabaseUtils {
             kafkaDatabaseClient.executeStatement(CREATE_PAYMENTS_METRICS_TABLE_SQL).get();
             kafkaDatabaseClient.executeStatement(CLIENTS_STREAM_SQL).get();
             kafkaDatabaseClient.executeStatement(ACCOUNTS_STREAM_SQL).get();
+            kafkaDatabaseClient.executeStatement(CREATE_CLIENT_SUMMARIES_STREAM_SQL).get();
+            kafkaDatabaseClient.executeStatement(CREATE_CLIENT_SUMMARIES_METRICS_TABLE_SQL).get();
         } catch (Exception e) {
             log.error("Exception occurred during database integration, closing the application :(");
             log.error(e.getMessage());
@@ -48,6 +64,8 @@ public class KafkaDatabaseUtils {
 
     public void deleteAllTablesAndStreams() {
         kafkaDatabaseClient.executeStatement("DROP TABLE IF EXISTS PAYMENTS_METRICS;").join();
+        kafkaDatabaseClient.executeStatement("DROP TABLE IF EXISTS CLIENT_SUMMARIES_METRICS;").join();
+        kafkaDatabaseClient.executeStatement("DROP STREAM IF EXISTS CLIENT_SUMMARIES;").join();
         kafkaDatabaseClient.executeStatement("DROP STREAM IF EXISTS PAYMENTS;").join();
         kafkaDatabaseClient.executeStatement("DROP STREAM IF EXISTS CLIENTS;").join();
         kafkaDatabaseClient.executeStatement("DROP STREAM IF EXISTS ACCOUNTS;").join();

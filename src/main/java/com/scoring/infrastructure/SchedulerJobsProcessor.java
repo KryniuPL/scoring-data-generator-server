@@ -18,17 +18,17 @@ public class SchedulerJobsProcessor {
     @Inject
     private ClientSummaryGenerator clientSummaryGenerator;
 
-    private Boolean initialPhaseCompleted = false;
+    private Boolean paymentsSchedulerClosed = false;
 
     @Scheduled(fixedRate = "5s")
     void checkPaymentsSize() {
-        if (RequestHolder.getDataGenerationRequest() != null && !initialPhaseCompleted) {
+        if (RequestHolder.getDataGenerationRequest() != null && !paymentsSchedulerClosed) {
             Long desiredPaymentsCount = RequestHolder.getDataGenerationRequest().getNumberOfPayments();
             Long actualPaymentsCount = paymentsRepository.countAll();
 
             if (desiredPaymentsCount.equals(actualPaymentsCount)) {
                 log.info("Generation of clients, accounts and payments finished");
-                initialPhaseCompleted = true;
+                paymentsSchedulerClosed = true;
                 clientSummaryGenerator.generateClientSummaries();
             } else {
                 log.info("Actual number of payments: {}", actualPaymentsCount);
@@ -36,5 +36,4 @@ public class SchedulerJobsProcessor {
             }
         }
     }
-
 }

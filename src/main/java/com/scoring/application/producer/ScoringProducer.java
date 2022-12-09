@@ -1,6 +1,6 @@
 package com.scoring.application.producer;
 
-import com.scoring.domain.ClientSummary;
+import com.scoring.domain.Scoring;
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
@@ -8,8 +8,8 @@ import io.micronaut.configuration.kafka.annotation.Topic;
 import java.util.UUID;
 
 @KafkaClient
-public interface ClientSummaryProducer {
+public interface ScoringProducer {
 
-    @Topic("client-summary")
-    void sendClientSummary(@KafkaKey UUID summaryId, ClientSummary clientSummary);
+    @Topic("scoring")
+    void sendScoring(@KafkaKey UUID scoringId, Scoring scoring);
 }
