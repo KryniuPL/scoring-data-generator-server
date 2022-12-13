@@ -1,9 +1,11 @@
 package com.scoring.application.generator;
 
+import com.scoring.application.producer.AccountProducer;
 import com.scoring.application.producer.PaymentHistoryProducer;
 import com.scoring.application.supplier.PaymentHistorySupplier;
 import com.scoring.application.utils.RequestHolder;
 import com.scoring.domain.Account;
+import com.scoring.domain.AccountStatus;
 import com.scoring.domain.PaymentHistory;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.OffsetReset;
@@ -15,6 +17,9 @@ public class PaymentHistoryGenerator {
 
     @Inject
     private PaymentHistoryProducer paymentHistoryProducer;
+
+    @Inject
+    private AccountProducer accountProducer;
 
     @Inject
     private PaymentHistorySupplier paymentHistorySupplier;

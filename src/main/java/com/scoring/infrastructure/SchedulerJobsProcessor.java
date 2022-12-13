@@ -31,7 +31,12 @@ public class SchedulerJobsProcessor {
                 paymentsSchedulerClosed = true;
                 clientSummaryGenerator.generateClientSummaries();
             } else {
-                log.info("Actual number of payments: {}", actualPaymentsCount);
+                log.info(
+                        "Actual number of payments: {}, Desired is: {}, Still to be processed: {}",
+                        actualPaymentsCount,
+                        desiredPaymentsCount,
+                        desiredPaymentsCount - actualPaymentsCount
+                );
                 log.info("Processing of initial dataset is still ongoing, checking once again in 5s");
             }
         }

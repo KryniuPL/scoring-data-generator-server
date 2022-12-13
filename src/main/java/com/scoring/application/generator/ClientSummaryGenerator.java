@@ -44,7 +44,7 @@ public class ClientSummaryGenerator {
                 .forEach(clientId -> {
                     List<Account> clientAccounts = accountsRepository.getAllByClientId(clientId);
                     List<PaymentHistory> paymentsHistory = clientAccounts.stream()
-                            .flatMap(account -> paymentsRepository.getAllByAccountId(account.accountId()).stream())
+                            .flatMap(account -> paymentsRepository.getAllByAccountId(account.getAccountId()).stream())
                             .toList();
 
                     BigDecimal sumOfBalances = paymentsHistory
@@ -85,7 +85,7 @@ public class ClientSummaryGenerator {
                             .maxOverdueAmount(maxOverdueAmount)
                             .maxDelayedDays(maxDelayedDays)
                             .worstStatus(worstStatus)
-                            .accountTypes(clientAccounts.stream().map(Account::accountType).toList())
+                            .accountTypes(clientAccounts.stream().map(Account::getAccountType).toList())
                             .summariesAggregator(CLIENT_SUMMARIES_COUNT_AGGREGATOR)
                             .build();
 
