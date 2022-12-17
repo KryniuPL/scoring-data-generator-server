@@ -5,6 +5,7 @@ import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.OffsetReset;
 import io.micronaut.configuration.kafka.annotation.Topic;
+import io.micronaut.messaging.annotation.MessageHeader;
 import jakarta.inject.Inject;
 
 import java.util.UUID;
@@ -16,7 +17,7 @@ public class ClientsListener {
     private AccountsGenerator accountsGenerator;
 
     @Topic("clients")
-    public void receiveClient(@KafkaKey UUID clientId) {
-        accountsGenerator.generateAccount(clientId);
+    public void receiveClient(@KafkaKey UUID clientId, @MessageHeader("PRODUCER-ID") String producerId) {
+        accountsGenerator.generateAccount(clientId, producerId);
     }
 }

@@ -10,11 +10,12 @@ import java.util.UUID;
 public record PaymentHistory(
         UUID paymentId,
         UUID accountId,
+        UUID clientId,
+        AccountType accountType,
         LocalDateTime date,
         BigDecimal balance,
         Long daysOfDelays,
         BigDecimal overdueAmount,
-        AccountStatus accountStatus,
-        String paymentsCountAggregator
+        AccountStatus accountStatus
 ) {
 }

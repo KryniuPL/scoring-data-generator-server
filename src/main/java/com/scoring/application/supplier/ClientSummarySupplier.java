@@ -1,8 +1,5 @@
 package com.scoring.application.supplier;
 
-import com.scoring.application.repository.AccountsRepository;
-import com.scoring.application.repository.PaymentsRepository;
-import com.scoring.domain.Account;
 import com.scoring.domain.AccountStatus;
 import com.scoring.domain.ClientSummary;
 import com.scoring.domain.PaymentHistory;
@@ -22,20 +19,7 @@ public class ClientSummarySupplier {
     @Inject
     private Clock clock;
 
-    @Inject
-    AccountsRepository accountsRepository;
-
-    @Inject
-    PaymentsRepository paymentsRepository;
-
-    private static final String CLIENT_SUMMARIES_COUNT_AGGREGATOR = "SUMMARIESAGGREGATOR";
-
-    public ClientSummary get(UUID clientId) {
-        List<Account> clientAccounts = accountsRepository.getAllByClientId(clientId);
-        List<PaymentHistory> paymentsHistory = clientAccounts.stream()
-                .flatMap(account -> paymentsRepository.getAllByAccountId(account.getAccountId()).stream())
-                .toList();
-
+    public ClientSummary get(UUID clientId, List<PaymentHistory> paymentsHistory) {
         BigDecimal sumOfBalances = paymentsHistory
                 .stream()
                 .map(PaymentHistory::balance)
@@ -74,8 +58,7 @@ public class ClientSummarySupplier {
                 .maxOverdueAmount(maxOverdueAmount)
                 .maxDelayedDays(maxDelayedDays)
                 .worstStatus(worstStatus)
-                .accountTypes(clientAccounts.stream().map(Account::getAccountType).toList())
-                .summariesAggregator(CLIENT_SUMMARIES_COUNT_AGGREGATOR)
+                .accountTypes(paymentsHistory.stream().map(PaymentHistory::accountType).distinct().toList())
                 .build();
     }
 }

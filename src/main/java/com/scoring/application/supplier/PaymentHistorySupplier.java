@@ -17,8 +17,6 @@ import static com.scoring.application.utils.RandomUtils.*;
 @Singleton
 public class PaymentHistorySupplier {
 
-    private static final String PAYMENTS_COUNT_AGGREGATOR = "PAYMENTS_COUNT_AGGREGATOR";
-
     public PaymentHistory get(Account account) {
         boolean isDelayed = randomBoolean();
         Long daysOfDelays = isDelayed ? randomLong(1, 30) : 0L;
@@ -26,13 +24,14 @@ public class PaymentHistorySupplier {
 
         return PaymentHistory.builder()
                 .paymentId(UUID.randomUUID())
-                .accountId(account.getAccountId())
+                .accountId(account.accountId())
+                .clientId(account.clientId())
+                .accountType(account.accountType())
                 .accountStatus(randomEnum(AccountStatus.class))
                 .balance(randomBigDecimal())
-                .date(randomDate(account.getStartDate(), account.getEndDate()).atTime(LocalTime.MIDNIGHT))
+                .date(randomDate(account.startDate(), account.endDate()).atTime(LocalTime.MIDNIGHT))
                 .daysOfDelays(daysOfDelays)
                 .overdueAmount(overdueAmount)
-                .paymentsCountAggregator(PAYMENTS_COUNT_AGGREGATOR)
                 .build();
     }
 }

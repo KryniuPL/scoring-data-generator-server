@@ -1,7 +1,7 @@
 package com.scoring.application;
 
 import com.scoring.application.generator.ClientsGenerator;
-import com.scoring.application.utils.RequestHolder;
+import com.scoring.application.utils.ProducersHolder;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -11,9 +11,8 @@ public class GeneratorStarter {
     @Inject
     private ClientsGenerator clientsGenerator;
 
-    public void startDataGeneration() {
-        Long numberOfClients = RequestHolder.getDataGenerationRequest().numberOfClients();
-        clientsGenerator.generateClients(numberOfClients);
+    public void startDataGeneration(String producerId) {
+        clientsGenerator.generateClients(producerId);
     }
 
 }

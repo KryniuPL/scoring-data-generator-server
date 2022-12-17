@@ -9,9 +9,6 @@ netty:
       max-order: 3
 
 kafka:
-  database:
-    host: localhost
-    port: 8088
   bootstrap:
     servers: localhost:29092
 

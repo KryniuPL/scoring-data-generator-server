@@ -19,7 +19,7 @@ public class ScoringGenerator {
     @Inject
     ScoringProducer scoringProducer;
 
-    public void generateScoring(ClientSummary clientSummary) {
+    public void generateScoring(ClientSummary clientSummary, String producerId) {
         Integer score = calculateScoring(clientSummary);
 
         Scoring scoring = Scoring.builder()
@@ -30,7 +30,7 @@ public class ScoringGenerator {
                 .scoringAvailability(calculateScoringAvailability(score))
                 .build();
 
-        scoringProducer.sendScoring(scoring.scoringId(), scoring);
+        scoringProducer.sendScoring(scoring.scoringId(), scoring, producerId);
     }
 
     private ScoringAvailability calculateScoringAvailability(Integer score) {

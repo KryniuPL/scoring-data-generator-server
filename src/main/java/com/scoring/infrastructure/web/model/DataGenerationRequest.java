@@ -12,13 +12,7 @@ public record DataGenerationRequest(
         @NotNull @Min(value = 1, message = "Number of payments must be greater than 0") Long numberOfPaymentsPerAccount
 ) {
 
-    public Long getNumberOfClients() { return this.numberOfClients; }
-
-    public Long getNumberOfPayments() {
-        return this.getNumberOfAccounts() * this.numberOfPaymentsPerAccount;
-    }
-
-    private Long getNumberOfAccounts() {
-        return this.numberOfClients * this.numberOfAccountsPerClient;
+    public Long getNumberOfPaymentsPerClient() {
+        return this.numberOfAccountsPerClient * this.numberOfPaymentsPerAccount;
     }
 }

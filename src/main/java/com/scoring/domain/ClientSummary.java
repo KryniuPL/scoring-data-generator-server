@@ -17,7 +17,6 @@ public record ClientSummary(
         Long maxDelayedDays,
         LocalDateTime creationDate,
         BigDecimal maxOverdueAmount,
-        List<AccountStatus> lastStatuses,
-        String summariesAggregator
+        List<AccountStatus> lastStatuses
 ) {
 }

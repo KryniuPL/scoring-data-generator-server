@@ -2,7 +2,7 @@ package com.scoring.application.generator;
 
 import com.scoring.application.producer.AccountProducer;
 import com.scoring.application.supplier.AccountSupplier;
-import com.scoring.application.utils.RequestHolder;
+import com.scoring.application.utils.ProducersHolder;
 import com.scoring.domain.Account;
 import jakarta.inject.Inject;
 
@@ -16,11 +16,11 @@ public class AccountsGenerator {
     @Inject
     private AccountSupplier accountSupplier;
 
-    public void generateAccount(UUID clientId) {
-        Long numberOfAccountsPerClient = RequestHolder.getDataGenerationRequest().numberOfAccountsPerClient();
+    public void generateAccount(UUID clientId, String producerId) {
+        Long numberOfAccountsPerClient = ProducersHolder.getProducerRequest(producerId).numberOfAccountsPerClient();
         for (int i = 0; i < numberOfAccountsPerClient; i++) {
             Account account = accountSupplier.get(clientId);
-            accountProducer.sendAccount(account.getClientId(), account);
+            accountProducer.sendAccount(account.accountId(), account, producerId);
         }
     }
 }

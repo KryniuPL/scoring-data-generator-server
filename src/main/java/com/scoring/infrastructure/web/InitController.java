@@ -1,7 +1,7 @@
 package com.scoring.infrastructure.web;
 
 import com.scoring.application.GeneratorStarter;
-import com.scoring.application.utils.RequestHolder;
+import com.scoring.application.utils.ProducersHolder;
 import com.scoring.infrastructure.web.model.DataGenerationRequest;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -20,7 +20,7 @@ public class InitController {
 
     @Post
     public void init(@Body @Valid DataGenerationRequest dataGenerationRequest) {
-        RequestHolder.setDataGenerationRequest(dataGenerationRequest);
-        generatorStarter.startDataGeneration();
+        String producerId = ProducersHolder.createNewProducer(dataGenerationRequest);
+        generatorStarter.startDataGeneration(producerId);
     }
 }
