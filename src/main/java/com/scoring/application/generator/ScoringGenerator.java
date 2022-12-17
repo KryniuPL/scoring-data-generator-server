@@ -5,9 +5,6 @@ import com.scoring.domain.AccountStatus;
 import com.scoring.domain.ClientSummary;
 import com.scoring.domain.Scoring;
 import com.scoring.domain.ScoringAvailability;
-import io.micronaut.configuration.kafka.annotation.KafkaListener;
-import io.micronaut.configuration.kafka.annotation.OffsetReset;
-import io.micronaut.configuration.kafka.annotation.Topic;
 import jakarta.inject.Inject;
 
 import java.math.BigDecimal;
@@ -17,14 +14,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import static com.scoring.application.utils.RandomUtils.isHigherThan;
 import static com.scoring.application.utils.RandomUtils.randomDouble;
 
-@KafkaListener(offsetReset = OffsetReset.EARLIEST)
 public class ScoringGenerator {
 
     @Inject
     ScoringProducer scoringProducer;
 
-    @Topic("client-summary")
-    public void generateClientSummaries(ClientSummary clientSummary) {
+    public void generateScoring(ClientSummary clientSummary) {
         Integer score = calculateScoring(clientSummary);
 
         Scoring scoring = Scoring.builder()
