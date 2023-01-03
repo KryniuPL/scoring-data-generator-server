@@ -11,6 +11,8 @@ import java.util.UUID;
 public record ClientSummary(
         UUID summaryId,
         UUID clientId,
+        ClientJob clientJob,
+        ClientMartialStatus clientMartialStatus,
         List<AccountType> accountTypes,
         BigDecimal sumOfBalances,
         AccountStatus worstStatus,

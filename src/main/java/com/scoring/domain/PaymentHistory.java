@@ -11,6 +11,8 @@ public record PaymentHistory(
         UUID paymentId,
         UUID accountId,
         UUID clientId,
+        ClientJob clientJob,
+        ClientMartialStatus clientMartialStatus,
         AccountType accountType,
         LocalDateTime date,
         BigDecimal balance,

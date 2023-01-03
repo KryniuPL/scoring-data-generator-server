@@ -52,6 +52,8 @@ public class ClientSummarySupplier {
         return ClientSummary.builder()
                 .summaryId(UUID.randomUUID())
                 .clientId(clientId)
+                .clientJob(paymentsHistory.get(0).clientJob())
+                .clientMartialStatus(paymentsHistory.get(0).clientMartialStatus())
                 .creationDate(LocalDateTime.now(clock))
                 .sumOfBalances(sumOfBalances)
                 .lastStatuses(lastStatuses)

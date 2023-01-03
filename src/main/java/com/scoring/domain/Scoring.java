@@ -8,7 +8,6 @@ import java.util.UUID;
 public record Scoring(
         UUID scoringId,
         Integer score,
-        Double probability,
         ScoringAvailability scoringAvailability,
         UUID clientId
 ) {

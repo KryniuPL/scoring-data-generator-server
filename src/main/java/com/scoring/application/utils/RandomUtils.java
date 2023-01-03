@@ -25,6 +25,11 @@ public class RandomUtils {
         return clazz.getEnumConstants()[x];
     }
 
+    public static <T extends Enum<?>> T randomEnum(T[] enumConstants) {
+        int x = random.nextInt(enumConstants.length);
+        return enumConstants[x];
+    }
+
     public static Integer randomInteger(Integer min, Integer max) {
         return random.nextInt(min, max + 1);
     }

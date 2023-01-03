@@ -4,9 +4,8 @@ import com.scoring.application.producer.AccountProducer;
 import com.scoring.application.supplier.AccountSupplier;
 import com.scoring.application.utils.ProducersHolder;
 import com.scoring.domain.Account;
+import com.scoring.domain.Client;
 import jakarta.inject.Inject;
-
-import java.util.UUID;
 
 public class AccountsGenerator {
 
@@ -16,10 +15,10 @@ public class AccountsGenerator {
     @Inject
     private AccountSupplier accountSupplier;
 
-    public void generateAccount(UUID clientId, String producerId) {
+    public void generateAccount(Client client, String producerId) {
         Long numberOfAccountsPerClient = ProducersHolder.getProducerRequest(producerId).numberOfAccountsPerClient();
         for (int i = 0; i < numberOfAccountsPerClient; i++) {
-            Account account = accountSupplier.get(clientId);
+            Account account = accountSupplier.get(client);
             accountProducer.sendAccount(account.accountId(), account, producerId);
         }
     }

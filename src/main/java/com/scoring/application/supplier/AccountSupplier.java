@@ -2,6 +2,7 @@ package com.scoring.application.supplier;
 
 import com.scoring.domain.Account;
 import com.scoring.domain.AccountType;
+import com.scoring.domain.Client;
 import jakarta.inject.Singleton;
 
 import java.time.LocalDate;
@@ -17,14 +18,16 @@ public class AccountSupplier {
     private static final LocalDate START_INCLUSIVE = LocalDate.of(2000, Month.JANUARY, 1);
     private static final LocalDate END_EXCLUSIVE = LocalDate.of(2021, Month.DECEMBER, 31);
 
-    public Account get(UUID clientId) {
+    public Account get(Client client) {
         AccountType accountType = randomEnum(AccountType.class);
         LocalDate startDate = getRandomDate();
         LocalDate endDate = getEndDate(startDate);
 
         return Account.builder()
                 .accountId(UUID.randomUUID())
-                .clientId(clientId)
+                .clientId(client.clientId())
+                .clientJob(client.clientJob())
+                .clientMartialStatus(client.clientMartialStatus())
                 .accountType(accountType)
                 .initialBalance(randomBigDecimal())
                 .numberOfInstallments(getNumberOfInstallments(accountType))

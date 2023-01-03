@@ -29,6 +29,8 @@ public class PaymentHistorySupplier {
                 .accountType(account.accountType())
                 .accountStatus(randomEnum(AccountStatus.class))
                 .balance(randomBigDecimal())
+                .clientJob(account.clientJob())
+                .clientMartialStatus(account.clientMartialStatus())
                 .date(randomDate(account.startDate(), account.endDate()).atTime(LocalTime.MIDNIGHT))
                 .daysOfDelays(daysOfDelays)
                 .overdueAmount(overdueAmount)

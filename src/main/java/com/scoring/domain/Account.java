@@ -10,6 +10,8 @@ import java.util.UUID;
 public record Account(
         UUID clientId,
         UUID accountId,
+        ClientJob clientJob,
+        ClientMartialStatus clientMartialStatus,
         LocalDate startDate,
         BigDecimal initialBalance,
         AccountType accountType,

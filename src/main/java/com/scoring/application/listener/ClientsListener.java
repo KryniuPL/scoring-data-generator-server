@@ -1,6 +1,7 @@
 package com.scoring.application.listener;
 
 import com.scoring.application.generator.AccountsGenerator;
+import com.scoring.domain.Client;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.OffsetReset;
@@ -17,7 +18,7 @@ public class ClientsListener {
     private AccountsGenerator accountsGenerator;
 
     @Topic("clients")
-    public void receiveClient(@KafkaKey UUID clientId, @MessageHeader("PRODUCER-ID") String producerId) {
-        accountsGenerator.generateAccount(clientId, producerId);
+    public void receiveClient(Client client, @MessageHeader("PRODUCER-ID") String producerId) {
+        accountsGenerator.generateAccount(client, producerId);
     }
 }

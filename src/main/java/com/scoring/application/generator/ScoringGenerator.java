@@ -1,32 +1,33 @@
 package com.scoring.application.generator;
 
 import com.scoring.application.producer.ScoringProducer;
-import com.scoring.domain.AccountStatus;
 import com.scoring.domain.ClientSummary;
 import com.scoring.domain.Scoring;
 import com.scoring.domain.ScoringAvailability;
 import jakarta.inject.Inject;
 
-import java.math.BigDecimal;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
-import static com.scoring.application.utils.RandomUtils.isHigherThan;
-import static com.scoring.application.utils.RandomUtils.randomDouble;
+import static com.scoring.domain.ScoringAvailability.NO_HISTORY;
+import static com.scoring.domain.ScoringAvailability.SCORING_AVAILABLE;
 
 public class ScoringGenerator {
 
+    private static final double BORDER_OF_SCORING_AVAILABILITY = 0.5;
+    private static final Integer MAX_SCORING = 556;
+
     @Inject
     ScoringProducer scoringProducer;
+    @Inject
+    ScoringCalculator scoringCalculator;
 
     public void generateScoring(ClientSummary clientSummary, String producerId) {
-        Integer score = calculateScoring(clientSummary);
+        Integer score = scoringCalculator.calculateScoring(clientSummary);
 
         Scoring scoring = Scoring.builder()
                 .scoringId(UUID.randomUUID())
                 .clientId(clientSummary.clientId())
                 .score(score)
-                .probability(randomDouble(0.00, 1.00))
                 .scoringAvailability(calculateScoringAvailability(score))
                 .build();
 
@@ -34,22 +35,7 @@ public class ScoringGenerator {
     }
 
     private ScoringAvailability calculateScoringAvailability(Integer score) {
-        return score < 50 ? ScoringAvailability.NO_HISTORY : ScoringAvailability.SCORING_AVAILABLE;
-    }
-
-    private Integer calculateScoring(ClientSummary clientSummary) {
-        AtomicReference<Integer> initialScoring = new AtomicReference<>(100);
-        clientSummary.lastStatuses().forEach(accountStatus -> {
-            if (accountStatus == AccountStatus.VINDICATION || accountStatus == AccountStatus.EXECUTION) {
-                initialScoring.updateAndGet(v -> v - 10);
-            }
-        });
-        if (clientSummary.maxDelayedDays() > 5) {
-            initialScoring.updateAndGet(v -> v - 25);
-        }
-        if (isHigherThan(clientSummary.maxOverdueAmount(), BigDecimal.valueOf(50L))) {
-            initialScoring.updateAndGet(v -> v - 25);
-        }
-        return initialScoring.get();
+        double scoreRatio = (double) score / (double) MAX_SCORING;
+        return scoreRatio < BORDER_OF_SCORING_AVAILABILITY ? NO_HISTORY : SCORING_AVAILABLE;
     }
 }
