@@ -1,24 +1,42 @@
 package com.scoring.application.generator;
 
+import com.scoring.domain.Account;
+import com.scoring.domain.Client;
 import com.scoring.domain.ClientJob;
 import com.scoring.domain.ClientMartialStatus;
 import com.scoring.domain.ClientSummary;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import lombok.RequiredArgsConstructor;
 
-import static com.scoring.application.utils.RandomUtils.randomDouble;
-import static com.scoring.application.utils.RandomUtils.randomInteger;
+import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Comparator;
+import java.util.List;
 
 @Singleton
+@RequiredArgsConstructor
 public class ScoringCalculator {
 
+    @Inject
+    private final Clock clock;
+
     public Integer calculateScoring(ClientSummary clientSummary) {
-        Integer act_cc = calculateActualCreditScoring(randomDouble(1.00, 1.50));
-        Integer act_cins_min_seniority = calculateActualAgeScoring(randomInteger(15, 130));
-        Integer act_cins_n_loan = calculateActualLoansScoring(randomInteger(0, 2));
-        Integer act_cins_n_static = calculateActualFinishedLoans(randomInteger(0, 3));
-        Integer app_char_jor_code = calculateJobScoring(clientSummary.clientJob());
-        Integer app_char_martial_status = calculateMartialScoring(clientSummary.clientMartialStatus());
-        Integer app_number_of_children = calculateChildrenScoring(randomInteger(0, 3));
+        Client client = clientSummary.client();
+        List<Account> accounts = clientSummary.accounts();
+
+        // Scoring related to client's financial data
+        Integer act_cc = calculateActualCreditScoring(client, accounts);
+        Integer act_cins_min_seniority = calculateActualAgeScoring(accounts);
+        Integer act_cins_n_loan = calculateActualLoansScoring(accounts);
+        Integer act_cins_n_static = calculateActualFinishedLoans(accounts);
+
+        // Scoring related to client's personal data
+        Integer app_char_jor_code = calculateJobScoring(client.clientJob());
+        Integer app_char_martial_status = calculateMartialScoring(client.clientMartialStatus());
+        Integer app_number_of_children = calculateChildrenScoring(client.numberOfChildren());
 
         return act_cc
                 + act_cins_min_seniority
@@ -29,7 +47,16 @@ public class ScoringCalculator {
                 + app_number_of_children;
     }
 
-    private Integer calculateActualCreditScoring(Double ratioOfLoadAndIncome) {
+    private Integer calculateActualCreditScoring(Client client, List<Account> accounts) {
+        int clientsLoad = accounts.stream()
+                .map(Account::installmentAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .toBigInteger()
+                .intValue() + client.spending().intValue();
+
+        int clientIncome = client.income().intValue();
+        double ratioOfLoadAndIncome = (double) clientsLoad / (double) clientIncome;
+
         if (ratioOfLoadAndIncome >= 1.0535455861) return -1;
         else if (ratioOfLoadAndIncome >= 0.857442348) return 29;
         else if (ratioOfLoadAndIncome >= 0.3324658426) return 40;
@@ -37,7 +64,13 @@ public class ScoringCalculator {
         else return 61;
     }
 
-    private Integer calculateActualAgeScoring(Integer monthsFromLastLoan) {
+    private Integer calculateActualAgeScoring(List<Account> accounts) {
+        Integer monthsFromLastLoan = accounts.stream()
+                .filter(Account::finished)
+                .max(Comparator.comparing(Account::endDate))
+                .map(account -> Period.between(LocalDate.now(clock), account.endDate()).getMonths())
+                .orElse(null);
+
         if (monthsFromLastLoan == null) return 53;
         else if (monthsFromLastLoan <= 22) return -1;
         else if (monthsFromLastLoan <= 36) return 50;
@@ -45,13 +78,15 @@ public class ScoringCalculator {
         else return 99;
     }
 
-    private Integer calculateActualLoansScoring(Integer numberOfActualLoans) {
+    private Integer calculateActualLoansScoring(List<Account> accounts) {
+        int numberOfActualLoans = Math.toIntExact(accounts.stream().filter(account -> !account.finished()).count());
         return numberOfActualLoans <= 1 ? 57 : -1;
     }
 
-    private Integer calculateActualFinishedLoans(Integer finishedLoans) {
-        if (finishedLoans == null) return 49;
-        else if (finishedLoans <= 0) return -1;
+    private Integer calculateActualFinishedLoans(List<Account> accounts) {
+        int finishedLoans = Math.toIntExact(accounts.stream().filter(Account::finished).count());
+
+        if (finishedLoans <= 0) return -1;
         else if (finishedLoans <= 1) return 49;
         else if (finishedLoans <= 2) return 54;
         else return 87;

@@ -1,5 +1,6 @@
 package com.scoring.application.supplier;
 
+import com.scoring.domain.Account;
 import com.scoring.domain.AccountStatus;
 import com.scoring.domain.ClientSummary;
 import com.scoring.domain.PaymentHistory;
@@ -19,10 +20,15 @@ public class ClientSummarySupplier {
     @Inject
     private Clock clock;
 
-    public ClientSummary get(UUID clientId, List<PaymentHistory> paymentsHistory) {
-        BigDecimal sumOfBalances = paymentsHistory
+    public ClientSummary get(List<PaymentHistory> paymentsHistory) {
+        List<Account> accounts = paymentsHistory.stream()
+                .map(PaymentHistory::account)
+                .distinct()
+                .toList();
+
+        BigDecimal sumOfBalances = accounts
                 .stream()
-                .map(PaymentHistory::balance)
+                .map(Account::initialBalance)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal maxOverdueAmount = paymentsHistory
@@ -51,16 +57,14 @@ public class ClientSummarySupplier {
 
         return ClientSummary.builder()
                 .summaryId(UUID.randomUUID())
-                .clientId(clientId)
-                .clientJob(paymentsHistory.get(0).clientJob())
-                .clientMartialStatus(paymentsHistory.get(0).clientMartialStatus())
+                .client(paymentsHistory.get(0).client())
+                .accounts(accounts)
                 .creationDate(LocalDateTime.now(clock))
                 .sumOfBalances(sumOfBalances)
                 .lastStatuses(lastStatuses)
                 .maxOverdueAmount(maxOverdueAmount)
                 .maxDelayedDays(maxDelayedDays)
                 .worstStatus(worstStatus)
-                .accountTypes(paymentsHistory.stream().map(PaymentHistory::accountType).distinct().toList())
                 .build();
     }
 }

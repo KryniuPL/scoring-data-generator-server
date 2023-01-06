@@ -28,7 +28,7 @@ public class ClientSummaryGenerator {
         clientPayments.add(paymentHistory);
 
         if (clientPayments.size() == numberOfPaymentsPerAccount) {
-            ClientSummary clientSummary = clientSummarySupplier.get(paymentHistory.clientId(), clientPayments);
+            ClientSummary clientSummary = clientSummarySupplier.get(clientPayments);
             clientSummaryProducer.sendClientSummary(clientSummary.summaryId(), clientSummary, producerId);
 
             clientPayments.clear();

@@ -10,10 +10,8 @@ import java.util.UUID;
 @Builder
 public record ClientSummary(
         UUID summaryId,
-        UUID clientId,
-        ClientJob clientJob,
-        ClientMartialStatus clientMartialStatus,
-        List<AccountType> accountTypes,
+        Client client,
+        List<Account> accounts,
         BigDecimal sumOfBalances,
         AccountStatus worstStatus,
         Long maxDelayedDays,

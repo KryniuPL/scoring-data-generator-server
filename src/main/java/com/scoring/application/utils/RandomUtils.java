@@ -38,12 +38,21 @@ public class RandomUtils {
         return Math.toIntExact(random.nextLong(min, max + 1));
     }
 
+    public static Long randomLong(Long min, Long max) {
+        return random.nextLong(min, max + 1);
+    }
+
     public static Double randomDouble(Double min, Double max) {
         return random.nextDouble(min, max + 1);
     }
 
     public static BigDecimal randomBigDecimal() {
         return new BigDecimal(BigInteger.valueOf(random.nextInt(100001)), 2);
+    }
+
+    public static BigDecimal randomBigDecimal(BigDecimal min, BigDecimal max) {
+        BigDecimal randomBigDecimal = min.add(BigDecimal.valueOf(Math.random()).multiply(max.subtract(min)));
+        return randomBigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public static LocalDate randomDate(LocalDate startInclusive, LocalDate endExclusive) {

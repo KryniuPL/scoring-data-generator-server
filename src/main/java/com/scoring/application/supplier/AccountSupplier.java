@@ -5,6 +5,7 @@ import com.scoring.domain.AccountType;
 import com.scoring.domain.Client;
 import jakarta.inject.Singleton;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
@@ -15,26 +16,28 @@ import static com.scoring.application.utils.RandomUtils.*;
 @Singleton
 public class AccountSupplier {
 
+    public static final long MIN_REQUESTED_AMOUNT = 1000L;
+    public static final long MAX_REQUESTED_AMOUNT = 300000L;
+    private static final int REQUESTED_AMOUNT_DIVIDER = 1000;
     private static final LocalDate START_INCLUSIVE = LocalDate.of(2000, Month.JANUARY, 1);
-    private static final LocalDate END_EXCLUSIVE = LocalDate.of(2021, Month.DECEMBER, 31);
+    private static final LocalDate END_EXCLUSIVE = LocalDate.of(2022, Month.DECEMBER, 31);
 
     public Account get(Client client) {
-        AccountType accountType = randomEnum(AccountType.class);
         LocalDate startDate = getRandomDate();
-        LocalDate endDate = getEndDate(startDate);
+        BigDecimal requestedAmount = randomBigDecimal(BigDecimal.valueOf(MIN_REQUESTED_AMOUNT), BigDecimal.valueOf(MAX_REQUESTED_AMOUNT));
+        Integer numberOfInstallments = requestedAmount.intValue() / REQUESTED_AMOUNT_DIVIDER;
+        LocalDate endDate = getEndDate(startDate, numberOfInstallments);
 
         return Account.builder()
                 .accountId(UUID.randomUUID())
-                .clientId(client.clientId())
-                .clientJob(client.clientJob())
-                .clientMartialStatus(client.clientMartialStatus())
-                .accountType(accountType)
-                .initialBalance(randomBigDecimal())
-                .numberOfInstallments(getNumberOfInstallments(accountType))
+                .client(client)
+                .accountType(AccountType.INSTALLMENT)
+                .numberOfInstallments(numberOfInstallments)
+                .installmentAmount(BigDecimal.valueOf(REQUESTED_AMOUNT_DIVIDER))
+                .initialBalance(requestedAmount)
                 .startDate(startDate)
                 .endDate(endDate)
-                .vindicationDate(null)
-                .executionDate(null)
+                .finished(randomBoolean())
                 .build();
     }
 
@@ -42,17 +45,7 @@ public class AccountSupplier {
         return randomDate(START_INCLUSIVE, END_EXCLUSIVE);
     }
 
-    private LocalDate getEndDate(LocalDate startDate) {
-        return startDate.plus(13, ChronoUnit.MONTHS);
+    private LocalDate getEndDate(LocalDate startDate, Integer installments) {
+        return startDate.plus(installments, ChronoUnit.MONTHS);
     }
-
-    private Integer getNumberOfInstallments(AccountType accountType) {
-        return switch (accountType) {
-            case CREDIT_CARD -> randomInteger(5, 10);
-            case MORTGAGE -> randomInteger(12, 240);
-            case INSTALLMENT -> randomInteger(1, 10);
-            default -> 0;
-        };
-    }
-
 }

@@ -37,3 +37,14 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=broker:9092
     depends_on:
       - broker
+  kowl:
+    image: quay.io/cloudhut/kowl:v1.2.1
+    restart: on-failure
+    hostname: kowl
+    volumes:
+      - ./owlConfig.yaml:/etc/kowl/config.yaml
+    ports:
+      - "9000:8080"
+    entrypoint: ./kowl --config.filepath=/etc/kowl/config.yaml
+    depends_on:
+      - broker

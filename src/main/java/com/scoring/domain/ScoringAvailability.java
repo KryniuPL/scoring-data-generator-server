@@ -1,5 +1,5 @@
 package com.scoring.domain;
 
 public enum ScoringAvailability {
-    SCORING_AVAILABLE, NO_HISTORY
+    SCORING_AVAILABLE, SCORING_UNAVAILABLE
 }

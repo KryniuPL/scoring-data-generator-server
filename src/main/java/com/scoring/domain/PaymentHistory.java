@@ -9,10 +9,8 @@ import java.util.UUID;
 @Builder
 public record PaymentHistory(
         UUID paymentId,
-        UUID accountId,
-        UUID clientId,
-        ClientJob clientJob,
-        ClientMartialStatus clientMartialStatus,
+        Account account,
+        Client client,
         AccountType accountType,
         LocalDateTime date,
         BigDecimal balance,
