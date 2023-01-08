@@ -2,10 +2,9 @@ package com.scoring.application.utils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class RandomUtils {
 
@@ -42,17 +41,13 @@ public class RandomUtils {
         return random.nextLong(min, max + 1);
     }
 
-    public static Double randomDouble(Double min, Double max) {
-        return random.nextDouble(min, max + 1);
-    }
-
     public static BigDecimal randomBigDecimal() {
         return new BigDecimal(BigInteger.valueOf(random.nextInt(100001)), 2);
     }
 
     public static BigDecimal randomBigDecimal(BigDecimal min, BigDecimal max) {
         BigDecimal randomBigDecimal = min.add(BigDecimal.valueOf(Math.random()).multiply(max.subtract(min)));
-        return randomBigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP);
+        return randomBigDecimal.setScale(2, RoundingMode.HALF_DOWN);
     }
 
     public static LocalDate randomDate(LocalDate startInclusive, LocalDate endExclusive) {
@@ -65,10 +60,6 @@ public class RandomUtils {
 
     public static boolean randomBoolean() {
         return random.nextBoolean();
-    }
-
-    public static boolean isHigherThan(BigDecimal toBeCompared, BigDecimal comparingTo) {
-        return toBeCompared.compareTo(comparingTo) > 0;
     }
 
 }
