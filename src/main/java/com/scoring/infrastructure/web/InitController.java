@@ -1,6 +1,7 @@
 package com.scoring.infrastructure.web;
 
 import com.scoring.application.GeneratorStarter;
+import com.scoring.application.utils.ProducersHolder;
 import com.scoring.domain.DataGenerationRequest;
 import com.scoring.infrastructure.web.model.DataGenerationPayload;
 import io.micronaut.http.annotation.Body;
@@ -21,12 +22,11 @@ public class InitController {
     private GeneratorStarter generatorStarter;
 
     @Post
-    public DataGenerationPayload init(@Body @Valid DataGenerationPayload dataGenerationPayload) {
+    public void init(@Body @Valid DataGenerationPayload dataGenerationPayload) {
         DataGenerationRequest dataGenerationRequest = dataGenerationPayload.toDataGenerationRequest();
         log.info("Data generation initialized with input parameters: {}", dataGenerationRequest);
-        return dataGenerationPayload;
-//        String producerId = ProducersHolder.createNewProducer(dataGenerationRequest);
-//        generatorStarter.startDataGeneration(producerId);
+        String producerId = ProducersHolder.createNewProducer(dataGenerationRequest);
+        generatorStarter.startDataGeneration(producerId);
     }
 
 }
