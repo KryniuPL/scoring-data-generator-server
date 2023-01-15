@@ -1,8 +1,11 @@
 package com.scoring.domain;
 
+import com.scoring.domain.account.Account;
+import com.scoring.domain.account.AccountStatus;
+import com.scoring.domain.account.AccountType;
+import com.scoring.domain.client.Client;
 import lombok.Builder;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,9 +16,9 @@ public record PaymentHistory(
         Client client,
         AccountType accountType,
         LocalDateTime date,
-        BigDecimal balance,
+        Integer balance,
         Long daysOfDelays,
-        BigDecimal overdueAmount,
+        Integer overdueAmount,
         AccountStatus accountStatus
 ) {
 }

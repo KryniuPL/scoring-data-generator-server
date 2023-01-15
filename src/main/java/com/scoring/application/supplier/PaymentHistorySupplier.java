@@ -1,11 +1,10 @@
 package com.scoring.application.supplier;
 
-import com.scoring.domain.Account;
-import com.scoring.domain.AccountStatus;
+import com.scoring.domain.account.Account;
+import com.scoring.domain.account.AccountStatus;
 import com.scoring.domain.PaymentHistory;
 import jakarta.inject.Singleton;
 
-import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -17,7 +16,7 @@ public class PaymentHistorySupplier {
     public PaymentHistory get(Account account) {
         boolean isDelayed = randomBoolean();
         Long daysOfDelays = isDelayed ? randomLong(1, 30) : 0L;
-        BigDecimal overdueAmount = isDelayed ? randomBigDecimal() : BigDecimal.ZERO;
+        Integer overdueAmount = isDelayed ? randomInteger(100, 1000) : 0;
 
         return PaymentHistory.builder()
                 .paymentId(UUID.randomUUID())
@@ -25,7 +24,7 @@ public class PaymentHistorySupplier {
                 .client(account.client())
                 .accountType(account.accountType())
                 .accountStatus(randomEnum(AccountStatus.class))
-                .balance(randomBigDecimal())
+                .balance(1000)
                 .date(randomDate(account.startDate(), account.endDate()).atTime(LocalTime.MIDNIGHT))
                 .daysOfDelays(daysOfDelays)
                 .overdueAmount(overdueAmount)

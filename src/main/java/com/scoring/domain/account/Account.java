@@ -1,8 +1,8 @@
-package com.scoring.domain;
+package com.scoring.domain.account;
 
+import com.scoring.domain.client.Client;
 import lombok.Builder;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -11,8 +11,8 @@ public record Account(
         UUID accountId,
         Client client,
         LocalDate startDate,
-        BigDecimal initialBalance,
-        BigDecimal installmentAmount,
+        Integer initialBalance,
+        Integer installmentAmount,
         AccountType accountType,
         Integer numberOfInstallments,
         LocalDate endDate,

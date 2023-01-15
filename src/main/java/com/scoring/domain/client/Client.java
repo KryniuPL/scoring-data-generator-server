@@ -1,9 +1,8 @@
-package com.scoring.domain;
+package com.scoring.domain.client;
 
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import lombok.Builder;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Builder
@@ -13,8 +12,8 @@ public record Client(
         ClientMartialStatus clientMartialStatus,
         String firstName,
         String lastName,
-        BigDecimal income,
-        BigDecimal spending,
+        Integer income,
+        Integer spending,
         Integer numberOfChildren,
         Integer age,
         String pesel,

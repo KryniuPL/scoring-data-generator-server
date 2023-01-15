@@ -1,7 +1,7 @@
 package com.scoring.application.listener;
 
 import com.scoring.application.generator.PaymentHistoryGenerator;
-import com.scoring.domain.Account;
+import com.scoring.domain.account.Account;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.OffsetReset;
 import io.micronaut.configuration.kafka.annotation.Topic;

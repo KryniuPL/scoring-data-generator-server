@@ -1,8 +1,9 @@
-package com.scoring.domain;
+package com.scoring.domain.client;
 
+import com.scoring.domain.account.Account;
+import com.scoring.domain.account.AccountStatus;
 import lombok.Builder;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -12,11 +13,11 @@ public record ClientSummary(
         UUID summaryId,
         Client client,
         List<Account> accounts,
-        BigDecimal sumOfBalances,
+        Integer sumOfBalances,
         AccountStatus worstStatus,
         Long maxDelayedDays,
         LocalDateTime creationDate,
-        BigDecimal maxOverdueAmount,
+        Integer maxOverdueAmount,
         List<AccountStatus> lastStatuses
 ) {
 }

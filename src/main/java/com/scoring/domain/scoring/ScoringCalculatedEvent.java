@@ -1,4 +1,4 @@
-package com.scoring.domain;
+package com.scoring.domain.scoring;
 
 import java.time.ZonedDateTime;
 

@@ -1,6 +1,6 @@
 package com.scoring.infrastructure.web;
 
-import com.scoring.domain.ScoringCalculatedEvent;
+import com.scoring.domain.scoring.ScoringCalculatedEvent;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.http.MediaType;
 import io.micronaut.websocket.WebSocketBroadcaster;

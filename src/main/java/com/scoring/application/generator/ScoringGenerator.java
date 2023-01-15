@@ -1,15 +1,16 @@
 package com.scoring.application.generator;
 
 import com.scoring.application.producer.ScoringProducer;
-import com.scoring.domain.Client;
-import com.scoring.domain.ClientSummary;
-import com.scoring.domain.Scoring;
-import com.scoring.domain.ScoringAvailability;
+import com.scoring.domain.client.Client;
+import com.scoring.domain.client.ClientSummary;
+import com.scoring.domain.scoring.Scoring;
+import com.scoring.domain.scoring.ScoringAvailability;
+import com.scoring.domain.scoring.ScoringMetadata;
 import jakarta.inject.Inject;
 
 import java.util.UUID;
 
-import static com.scoring.domain.ScoringAvailability.*;
+import static com.scoring.domain.scoring.ScoringAvailability.*;
 
 public class ScoringGenerator {
 
@@ -22,12 +23,14 @@ public class ScoringGenerator {
     ScoringCalculator scoringCalculator;
 
     public void generateScoring(ClientSummary clientSummary, String producerId) {
-        Integer score = scoringCalculator.calculateScoring(clientSummary);
+        ScoringMetadata scoringMetadata = scoringCalculator.calculateScoring(clientSummary);
+        Integer score = scoringMetadata.sum();
         Client client = clientSummary.client();
 
         Scoring scoring = Scoring.builder()
                 .scoringId(UUID.randomUUID())
                 .clientId(client.clientId())
+                .scoringMetadata(scoringMetadata)
                 .score(score)
                 .scoringAvailability(calculateScoringAvailability(score))
                 .build();

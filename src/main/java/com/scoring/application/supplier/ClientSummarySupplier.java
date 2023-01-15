@@ -1,13 +1,12 @@
 package com.scoring.application.supplier;
 
-import com.scoring.domain.Account;
-import com.scoring.domain.AccountStatus;
-import com.scoring.domain.ClientSummary;
+import com.scoring.domain.account.Account;
+import com.scoring.domain.account.AccountStatus;
+import com.scoring.domain.client.ClientSummary;
 import com.scoring.domain.PaymentHistory;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -26,12 +25,12 @@ public class ClientSummarySupplier {
                 .distinct()
                 .toList();
 
-        BigDecimal sumOfBalances = accounts
+        Integer sumOfBalances = accounts
                 .stream()
                 .map(Account::initialBalance)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(0, Integer::sum);
 
-        BigDecimal maxOverdueAmount = paymentsHistory
+        Integer maxOverdueAmount = paymentsHistory
                 .stream()
                 .map(PaymentHistory::overdueAmount)
                 .max(Comparator.naturalOrder())

@@ -1,6 +1,6 @@
 package com.scoring.application.producer;
 
-import com.scoring.domain.ClientSummary;
+import com.scoring.domain.client.ClientSummary;
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;

@@ -18,7 +18,7 @@ public record DataGenerationPayload(
 
     public DataGenerationRequest toDataGenerationRequest() {
         return new DataGenerationRequest(
-                10000L,
+                1000L,
                 randomLong(accountsRange.min, accountsRange.max),
                 randomLong(paymentsRange.min, paymentsRange.max)
         );

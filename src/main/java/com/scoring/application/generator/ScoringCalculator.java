@@ -1,15 +1,15 @@
 package com.scoring.application.generator;
 
-import com.scoring.domain.Account;
-import com.scoring.domain.Client;
-import com.scoring.domain.ClientJob;
-import com.scoring.domain.ClientMartialStatus;
-import com.scoring.domain.ClientSummary;
+import com.scoring.domain.account.Account;
+import com.scoring.domain.client.Client;
+import com.scoring.domain.client.ClientJob;
+import com.scoring.domain.client.ClientMartialStatus;
+import com.scoring.domain.client.ClientSummary;
+import com.scoring.domain.scoring.ScoringMetadata;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.Period;
@@ -23,7 +23,7 @@ public class ScoringCalculator {
     @Inject
     private final Clock clock;
 
-    public Integer calculateScoring(ClientSummary clientSummary) {
+    public ScoringMetadata calculateScoring(ClientSummary clientSummary) {
         Client client = clientSummary.client();
         List<Account> accounts = clientSummary.accounts();
 
@@ -38,23 +38,24 @@ public class ScoringCalculator {
         Integer app_char_martial_status = calculateMartialScoring(client.clientMartialStatus());
         Integer app_number_of_children = calculateChildrenScoring(client.numberOfChildren());
 
-        return act_cc
-                + act_cins_min_seniority
-                + act_cins_n_loan
-                + act_cins_n_static
-                + app_char_jor_code
-                + app_char_martial_status
-                + app_number_of_children;
+        return new ScoringMetadata(
+                act_cc,
+                act_cins_min_seniority,
+                act_cins_n_loan,
+                act_cins_n_static,
+                app_char_jor_code,
+                app_char_martial_status,
+                app_number_of_children
+        );
     }
 
     private Integer calculateActualCreditScoring(Client client, List<Account> accounts) {
         int clientsLoad = accounts.stream()
                 .map(Account::installmentAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .toBigInteger()
-                .intValue() + client.spending().intValue();
+                .reduce(0, Integer::sum)
+                + client.spending();
 
-        int clientIncome = client.income().intValue();
+        int clientIncome = client.income();
         double ratioOfLoadAndIncome = (double) clientsLoad / (double) clientIncome;
 
         if (ratioOfLoadAndIncome >= 1.0535455861) return -1;

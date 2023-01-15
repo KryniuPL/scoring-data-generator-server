@@ -3,7 +3,7 @@ package com.scoring.application.generator;
 import com.scoring.application.producer.ClientProducer;
 import com.scoring.application.supplier.ClientSupplier;
 import com.scoring.application.utils.ProducersHolder;
-import com.scoring.domain.Client;
+import com.scoring.domain.client.Client;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 

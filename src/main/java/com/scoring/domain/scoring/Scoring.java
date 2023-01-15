@@ -1,4 +1,4 @@
-package com.scoring.domain;
+package com.scoring.domain.scoring;
 
 import lombok.Builder;
 
@@ -8,6 +8,7 @@ import java.util.UUID;
 public record Scoring(
         UUID scoringId,
         Integer score,
+        ScoringMetadata scoringMetadata,
         ScoringAvailability scoringAvailability,
         UUID clientId
 ) {

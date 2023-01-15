@@ -1,8 +1,5 @@
 package com.scoring.application.utils;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 
@@ -39,15 +36,6 @@ public class RandomUtils {
 
     public static Long randomLong(Long min, Long max) {
         return random.nextLong(min, max + 1);
-    }
-
-    public static BigDecimal randomBigDecimal() {
-        return new BigDecimal(BigInteger.valueOf(random.nextInt(100001)), 2);
-    }
-
-    public static BigDecimal randomBigDecimal(BigDecimal min, BigDecimal max) {
-        BigDecimal randomBigDecimal = min.add(BigDecimal.valueOf(Math.random()).multiply(max.subtract(min)));
-        return randomBigDecimal.setScale(2, RoundingMode.HALF_DOWN);
     }
 
     public static LocalDate randomDate(LocalDate startInclusive, LocalDate endExclusive) {

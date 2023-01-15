@@ -3,7 +3,7 @@ package com.scoring.application.generator;
 import com.scoring.application.producer.PaymentHistoryProducer;
 import com.scoring.application.supplier.PaymentHistorySupplier;
 import com.scoring.application.utils.ProducersHolder;
-import com.scoring.domain.Account;
+import com.scoring.domain.account.Account;
 import com.scoring.domain.PaymentHistory;
 import jakarta.inject.Inject;
 

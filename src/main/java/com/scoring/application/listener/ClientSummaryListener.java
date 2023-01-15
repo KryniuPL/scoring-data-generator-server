@@ -1,7 +1,7 @@
 package com.scoring.application.listener;
 
 import com.scoring.application.generator.ScoringGenerator;
-import com.scoring.domain.ClientSummary;
+import com.scoring.domain.client.ClientSummary;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.OffsetReset;
 import io.micronaut.configuration.kafka.annotation.Topic;
