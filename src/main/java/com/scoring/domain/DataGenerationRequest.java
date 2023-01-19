@@ -1,9 +1,12 @@
 package com.scoring.domain;
 
+import com.scoring.domain.range.ClientsAgeRange;
+
 public record DataGenerationRequest(
         Long numberOfClients,
         Long numberOfAccountsPerClient,
-        Long numberOfPaymentsPerAccount
+        Long numberOfPaymentsPerAccount,
+        ClientsAgeRange clientsAgeRange
 ) {
 
     public Long getNumberOfPaymentsPerClient() {

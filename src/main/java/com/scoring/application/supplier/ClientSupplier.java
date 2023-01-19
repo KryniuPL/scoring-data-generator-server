@@ -1,29 +1,31 @@
 package com.scoring.application.supplier;
 
 import com.scoring.application.repository.NamesRepository;
+import com.scoring.application.utils.GenerationDataHolder;
 import com.scoring.domain.client.Client;
 import com.scoring.domain.client.ClientJob;
 import com.scoring.domain.client.ClientMartialStatus;
 import com.scoring.domain.client.ClientType;
 import com.scoring.domain.Sex;
+import com.scoring.domain.range.ClientsAgeRange;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import static com.scoring.application.utils.RandomUtils.*;
 
 @Singleton
-public class ClientSupplier implements Supplier<Client> {
+public class ClientSupplier {
 
     @Inject
     NamesRepository namesRepository;
 
-    @Override
-    public Client get() {
+    public Client get(String producerId) {
+        ClientsAgeRange clientsAgeRange = GenerationDataHolder.getCurrentGenerationData().clientsAgeRange();
+
         Sex sex = randomEnum(Sex.class);
-        Integer clientAge = randomInteger(18, 100);
+        Integer clientAge = randomInteger(clientsAgeRange.min(), clientsAgeRange.max());
 
         return Client.builder()
                 .clientId(UUID.randomUUID())

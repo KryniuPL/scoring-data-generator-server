@@ -2,7 +2,7 @@ package com.scoring.application.generator;
 
 import com.scoring.application.producer.ClientSummaryProducer;
 import com.scoring.application.supplier.ClientSummarySupplier;
-import com.scoring.application.utils.ProducersHolder;
+import com.scoring.application.utils.GenerationDataHolder;
 import com.scoring.domain.client.ClientSummary;
 import com.scoring.domain.PaymentHistory;
 import jakarta.inject.Inject;
@@ -23,7 +23,7 @@ public class ClientSummaryGenerator {
     private final List<PaymentHistory> clientPayments = new ArrayList<>();
 
     public void generateClientSummaries(PaymentHistory paymentHistory, String producerId) {
-        Long numberOfPaymentsPerAccount = ProducersHolder.getProducerRequest(producerId).getNumberOfPaymentsPerClient();
+        Long numberOfPaymentsPerAccount = GenerationDataHolder.getCurrentGenerationData().getNumberOfPaymentsPerClient();
 
         clientPayments.add(paymentHistory);
 
