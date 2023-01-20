@@ -36,6 +36,12 @@
     </repositories>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/io.confluent.ksql/ksqldb-api-client -->
+        <dependency>
+            <groupId>io.confluent.ksql</groupId>
+            <artifactId>ksqldb-api-client</artifactId>
+            <version>7.3.1</version>
+        </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-inject</artifactId>
