@@ -7,6 +7,7 @@ import com.scoring.domain.client.ClientJob;
 import com.scoring.domain.client.ClientMartialStatus;
 import com.scoring.domain.client.ClientType;
 import com.scoring.domain.Sex;
+import com.scoring.domain.range.ChildrenRange;
 import com.scoring.domain.range.ClientsAgeRange;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -21,8 +22,9 @@ public class ClientSupplier {
     @Inject
     NamesRepository namesRepository;
 
-    public Client get(String producerId) {
+    public Client get() {
         ClientsAgeRange clientsAgeRange = GenerationDataHolder.getCurrentGenerationData().clientsAgeRange();
+        ChildrenRange childrenRange = GenerationDataHolder.getCurrentGenerationData().childrenRange();
 
         Sex sex = randomEnum(Sex.class);
         Integer clientAge = randomInteger(clientsAgeRange.min(), clientsAgeRange.max());
@@ -37,7 +39,7 @@ public class ClientSupplier {
                 .clientType(randomEnum(ClientType.class))
                 .income(defineClientIncomeBaseOnAge(clientAge))
                 .spending(defineClientSpendingBaseOnAge(clientAge))
-                .numberOfChildren(randomInteger(0, 3))
+                .numberOfChildren(randomInteger(childrenRange.min(), childrenRange.max()))
                 .build();
     }
 

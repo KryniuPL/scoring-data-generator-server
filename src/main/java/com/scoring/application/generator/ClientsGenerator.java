@@ -26,7 +26,7 @@ public class ClientsGenerator {
 
         new Thread(() -> {
             for (int i = 0; i < numberOfClients; i++) {
-                Client client = clientSupplier.get(producerId);
+                Client client = clientSupplier.get();
                 clientProducer.sendClient(client.clientId(), client, producerId);
 
                 try {
